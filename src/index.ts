@@ -1,22 +1,31 @@
+import fs from 'fs';
+
 import * as bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
 import Helmet from 'helmet';
-import Express from 'express';
+import { Probot } from 'probot';
 
 import { Config } from './config';
 
-const app: Express.Application = Express();
+import { GithubService } from './services';
 
 const start = async () => {
-    app.use(Helmet());
-    app.use(cookieParser(Config.secret));
-    app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
-    app.use(bodyParser.json({ limit: '50mb' }));
-
-    app.listen(Config.port, () => {
-        console.log(`server started on port ${Config.port}`);
+    const app: Probot = new Probot({
+        id: Number(Config.APP_ID),
+        port: Number(Config.port),
+        secret: Config.APP_SECRET,
+        cert: fs.readFileSync(Config.APP_PRIVATE, 'utf8'),
     });
+    const express = app.server;
+
+    express.use(Helmet());
+    express.use(cookieParser(Config.COOKIE_SECRET));
+    express.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+    express.use(bodyParser.json({ limit: '50mb' }));
+
+    app.setup([GithubService.getInstance]);
+    app.start();
 };
 
 start();

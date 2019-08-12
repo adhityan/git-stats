@@ -8,5 +8,11 @@ export abstract class BaseConfig {
 
     port: number = parseInt(process.env.APP_PORT || '9000', 10);
 
-    secret: string = process.env.SECRET || 'secret';
+    COOKIE_SECRET: string = process.env.COOKIE_SECRET || 'yo!';
+
+    APP_PRIVATE: string = process.env.APP_PRIVATE || '';
+
+    APP_SECRET: string = process.env.APP_SECRET || '';
+
+    APP_ID: string = process.env.APP_ID || '37964';
 }
