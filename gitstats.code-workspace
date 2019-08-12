@@ -1,0 +1,56 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Git Stats"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.cache": true,
+			"**/dist": true,
+			"**/coverage": true,
+			"**/mariadb": true,
+			"**/redis": true,
+			"**/node_modules": true,
+            "yarn.lock": true,
+			"package-lock.json": true,
+			".vscode": true
+		},
+		"search.exclude": {
+			"dist": true,
+			"**/coverage": true,
+		},
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"files.autoSave": "onFocusChange",
+		"javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+		"npm.packageManager": "yarn",
+		"gitlens.views.fileHistory.location": "scm",
+		"gitlens.views.lineHistory.location": "scm",
+		"gitlens.views.repositories.location": "scm",
+		"gitlens.views.repositories.enabled": false,
+		"gitlens.views.search.location": "scm",
+		"gitlens.views.compare.location": "scm",
+		"gitlens.mode.statusBar.enabled": false,
+		"gitlens.liveshare.allowGuestAccess": false,
+		"liveshare.guestApprovalRequired": true,
+		"liveshare.showInStatusBar": "whileCollaborating",
+		"breadcrumbs.symbolPath": "last"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-azuretools.vscode-docker",
+			"wayou.vscode-todo-highlight",
+			"actboy168.tasks"
+		],
+		"unwantedRecommendations": [
+			"ms-vscode.vscode-typescript-tslint-plugin",
+			"orta.vscode-jest",
+			"dbaeumer.vscode-eslint"
+		]
+	},
+	"launch": {
+		"configurations": [],
+		"compounds": []
+	}
+}

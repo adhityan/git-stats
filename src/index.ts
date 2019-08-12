@@ -1,4 +1,4 @@
 import { Service } from 'typedi';
 
 @Service()
-export class Docushare {}
+export class GitStats {}

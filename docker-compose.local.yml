@@ -1,0 +1,114 @@
+#docker-compose -f docker-compose.local.yml up
+#docker-compose -f docker-compose.local.yml build
+#docker-compose -f docker-compose.local.yml down -v --remove-orphans
+version: "3.7"
+
+x-backend: &backend
+  image: saleskey:latest
+  volumes:
+    - type: bind
+      source: .
+      target: /code
+    - /code/node_modules
+    - /code/app/node_modules
+    - /code/core/node_modules
+    - /code/shared/node_modules
+    - /code/adapters/default/node_modules
+  networks:
+    - backend
+  env_file:
+    - 'app/.env'
+  depends_on:
+    - adminer
+    - redis
+
+services:
+  server:
+    <<: *backend
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+      cache_from:
+        - saleskey:latest
+    stop_grace_period: "3"
+    command: >
+      /bin/sh -c "
+        sleep 3;
+        yarn start:dev;"
+    restart: always
+    ports:
+      - 9000:9000
+
+  mariadb:
+    image: 'mariadb:10.4.5'
+    restart: always
+    volumes:
+      - type: volume
+        source: db
+        target: /var/lib/mysql
+    env_file:
+      - 'app/.env'
+    networks:
+      - backend
+
+  redis:
+    image: 'redis:5-alpine'
+    command: redis-server --appendonly yes
+    restart: always
+    volumes:
+      - type: volume
+        source: redis
+        target: /data
+    networks:
+      - backend
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    depends_on:
+      - mariadb
+    networks:
+      - backend
+
+  worker-thumbnail:
+    <<: *backend
+    stop_grace_period: 1
+    command: "yarn worker:thumbnail:dev"
+    stop_grace_period: "1"
+    restart: on-failure
+    networks:
+      - backend
+    depends_on:
+      - server
+
+  worker-notification:
+    <<: *backend
+    stop_grace_period: 1
+    command: "yarn worker:notification:dev"
+    stop_grace_period: "1"
+    restart: on-failure
+    networks:
+      - backend
+    depends_on:
+      - server
+
+  # arena:
+  #   image: 'mixmaxhq/arena'
+  #   ports:
+  #     - "4567:4567"
+  #   volumes:
+  #     - './src/config/arena.json:/opt/arena/src/server/config/index.json'
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+
+networks:
+  backend:
+
+volumes:
+  db:
+  redis:
