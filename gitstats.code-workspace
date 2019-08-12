@@ -15,7 +15,8 @@
 			"**/node_modules": true,
             "yarn.lock": true,
 			"package-lock.json": true,
-			".vscode": true
+			".vscode": true,
+			".github": true
 		},
 		"search.exclude": {
 			"dist": true,
