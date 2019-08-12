@@ -30,9 +30,7 @@
             "osx": {
                 "command": "yarn lint:fix"
             },
-            "problemMatcher": [
-                "$eslint-stylish"
-            ],
+            "problemMatcher": ["$eslint-stylish"],
             "options": {
                 "cwd": "${workspaceRoot}",
                 "statusbar": "hide"
