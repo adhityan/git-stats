@@ -14,8 +14,9 @@ const start = async () => {
     const app: Probot = new Probot({
         id: Number(Config.APP_ID),
         port: Number(Config.port),
-        secret: Config.APP_SECRET,
+        secret: Config.WEBHOOK_SECRET,
         cert: fs.readFileSync(Config.APP_PRIVATE, 'utf8'),
+        webhookProxy: Config.WEBHOOK_PROXY_URL,
     });
     const express = app.server;
 
@@ -24,7 +25,7 @@ const start = async () => {
     express.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
     express.use(bodyParser.json({ limit: '50mb' }));
 
-    app.setup([GithubService.getInstance]);
+    app.setup([GithubService.getInstance()]);
     app.start();
 };
 
