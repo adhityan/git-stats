@@ -1,0 +1,7 @@
+{
+    "rules": {
+        "class-methods-use-this": "off",
+        "import/first": "off",
+        "import/order": "off"
+    }
+}
