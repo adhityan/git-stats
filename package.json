@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
     "helmet": "^3.20.0",
-    "probot": "^9.3.1",
+    "probot": "^12.2.8",
     "routing-controllers": "^0.7.7",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.18",
